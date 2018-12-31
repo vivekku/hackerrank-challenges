@@ -1,3 +1,18 @@
+function lcp(a, b) {
+    let minLength = Math.min(a.length, b.length);
+
+    for (let i = 0; i < minLength; i++) {
+        if (a[i] !== b[i]) {
+            return i;
+        }
+    }
+    
+    return minLength;
+}
+
+/*
+ * Complete the findStrings function below.
+ */
 function findStrings(w, queries) {
     let suffixes = new Set();
     
