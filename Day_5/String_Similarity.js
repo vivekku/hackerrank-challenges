@@ -32,6 +32,6 @@ function zArrayHelper(s) {
 }
 
 // Returns the sum of length of all the matching longest common prefix
-function similarity(string) {
+function stringSimilarity(string) {
 	return zArrayHelper(string).reduce((sum, length) => sum + length, 0);
 }
