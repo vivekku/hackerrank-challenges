@@ -74,3 +74,33 @@ function bikeRacers(bikers, bikes, K) {
     }
     return ans;
 }
+
+function main() {
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+
+    const nmk = readLine().split(' ');
+
+    const n = parseInt(nmk[0], 10);
+
+    const m = parseInt(nmk[1], 10);
+
+    const k = parseInt(nmk[2], 10);
+
+    let bikers = Array(n);
+
+    for (let bikersRowItr = 0; bikersRowItr < n; bikersRowItr++) {
+        bikers[bikersRowItr] = readLine().split(' ').map(bikersTemp => parseInt(bikersTemp, 10));
+    }
+
+    let bikes = Array(m);
+
+    for (let bikesRowItr = 0; bikesRowItr < m; bikesRowItr++) {
+        bikes[bikesRowItr] = readLine().split(' ').map(bikesTemp => parseInt(bikesTemp, 10));
+    }
+
+    let result = bikeRacers(bikers, bikes, k);
+
+    ws.write(result + "\n");
+
+    ws.end();
+}
