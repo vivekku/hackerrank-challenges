@@ -1,18 +1,55 @@
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', _ => {
+    inputString = inputString.trim().split('\n').map(str => str.trim());
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+/*
+ * Complete the jeanisRoute function below.
+ */
 function jeanisRoute(k, roads) {
+    /*
+     * Write your code here.
+     */
     const n = roads.length + 1;
     let visited = new Array(n);
-    visited.map(_ => false);    
-    let graph = {};    
+    
+    visited.map(_ => false);
+    
+    let graph = {};
+    
     roads.forEach(road => {
         graph[road[0]] = graph[road[0]] || {};
         graph[road[0]][road[1]] = road[2];
         graph[road[1]] = graph[road[1]] || {};
         graph[road[1]][road[0]] = road[2];
-    });    
-    const root = k[0];        
+    });
+    
+    const root = k[0];
+        
     let needed = {};
     k.forEach(l => {needed[l] = true});
-    const tree = calcTree(root, graph, needed, visited);        
+    
+    const tree = calcTree(root, graph, needed, visited);
+        
     return tree.three;
 }
 
@@ -95,4 +132,28 @@ function calcTree(root, graph, needed, visited) {
     console.log(root);
 
     return {root: root, one: one, two: two, three: Math.min(three1, three2)};
+}
+
+function main() {
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+
+    const nk = readLine().split(' ');
+
+    const n = parseInt(nk[0], 10);
+
+    const k = parseInt(nk[1], 10);
+
+    const city = readLine().split(' ').map(cityTemp => parseInt(cityTemp, 10));
+
+    let roads = Array(n-1);
+
+    for (let roadsRowItr = 0; roadsRowItr < n-1; roadsRowItr++) {
+        roads[roadsRowItr] = readLine().split(' ').map(roadsTemp => parseInt(roadsTemp, 10));
+    }
+
+    let result = jeanisRoute(city, roads);
+
+    ws.write(result + "\n");
+
+    ws.end();
 }
